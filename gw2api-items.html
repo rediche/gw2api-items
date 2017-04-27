@@ -12,12 +12,6 @@ Sends requests to the GW2 API endpoint items
 
 <dom-module id="gw2api-items">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-
     <iron-ajax
       id="itemRequester"
       url="[[ urlBase ]][[ urlEndpoint ]]"
@@ -25,10 +19,6 @@ Sends requests to the GW2 API endpoint items
       handle-as="json"
       on-response="_handleResponse"
       on-error="_handleError"></iron-ajax>
-
-    <p>URL Base: [[ urlBase ]]</p>
-    <p>URL Endpoint: [[ urlEndpoint ]]</p>
-    <p>IDs: [[ ids ]]</p>
   </template>
 
   <script>
