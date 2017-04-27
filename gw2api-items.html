@@ -17,7 +17,17 @@ Sends requests to the GW2 API endpoint items
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+
+    <iron-ajax
+      id="itemRequester"
+      url="[[ urlBase ]][[ urlEndpoint ]]"
+      params="[[ params ]]"
+      handle-as="json"
+      on-response="_handleResponse"></iron-ajax>
+
+    <p>URL Base: [[ urlBase ]]</p>
+    <p>URL Endpoint: [[ urlEndpoint ]]</p>
+    <p>IDs: [[ ids ]]</p>
   </template>
 
   <script>
@@ -26,14 +36,64 @@ Sends requests to the GW2 API endpoint items
       static get is() { return 'gw2api-items'; }
       static get properties() {
         return {
-          prop1: {
+          urlBase: {
             type: String,
-            value: 'gw2api-items'
+            value: 'https://api.guildwars2.com/'
+          },
+
+          urlEndpoint: {
+            type: String,
+            value: 'v2/items'
+          },
+
+          /**
+           * A string of item IDs you want to request data for.
+           *
+           * @type {String|Undefined}
+           */
+          ids: {
+            type: String,
+            observer: '_generateParams'
+          },
+
+          params: {
+            type: Object
+          },
+
+          onResponse: {
+            type: Object
           }
         };
       }
+
+      ready() {
+        super.ready();
+
+        // When possible, use afterNextRender to defer non-critical
+        // work until after first paint.
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          // console.log("URL Base:", this.urlBase);
+          // console.log("URL Endpoint:", this.urlEndpoint);
+          // console.log("IDs:", this.ids);
+
+          // console.log("Generating request about items", this.ids);
+          this.$.itemRequester.generateRequest();
+        });
+      }
+
+      _generateParams(ids) {
+        return this.params = {
+          ids: this.ids
+        }
+      }
+
+      _handleResponse(request) {
+        console.log(request.detail.response);
+      }
+
+
     }
 
-    window.customElements.define(MyElement.is, MyElement);
+    window.customElements.define(Gw2apiItems.is, Gw2apiItems);
   </script>
 </dom-module>

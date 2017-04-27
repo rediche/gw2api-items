@@ -18,9 +18,18 @@
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic gw2api-items demo</h3>
+      <p>Getting item with ID 14885</p>
       <demo-snippet>
         <template>
-          <gw2api-items></gw2api-items>
+          <gw2api-items ids="14885"></gw2api-items>
+        </template>
+      </demo-snippet>
+
+      <h3>Multiple items at once</h3>
+      <p>Getting data for items: 14884 and 14885</p>
+      <demo-snippet>
+        <template>
+          <gw2api-items ids="14884,14885"></gw2api-items>
         </template>
       </demo-snippet>
     </div>
