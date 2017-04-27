@@ -23,7 +23,8 @@ Sends requests to the GW2 API endpoint items
       url="[[ urlBase ]][[ urlEndpoint ]]"
       params="[[ params ]]"
       handle-as="json"
-      on-response="_handleResponse"></iron-ajax>
+      on-response="_handleResponse"
+      on-error="_handleError"></iron-ajax>
 
     <p>URL Base: [[ urlBase ]]</p>
     <p>URL Endpoint: [[ urlEndpoint ]]</p>
@@ -34,6 +35,7 @@ Sends requests to the GW2 API endpoint items
     /** @polymerElement */
     class Gw2apiItems extends Polymer.Element {
       static get is() { return 'gw2api-items'; }
+
       static get properties() {
         return {
           urlBase: {
@@ -60,8 +62,18 @@ Sends requests to the GW2 API endpoint items
             type: Object
           },
 
-          onResponse: {
-            type: Object
+          response: {
+            type: Object,
+            notify: true
+          },
+
+          /**
+           * Should the request run straight away?
+           *
+           * @type {Boolean|Undefined}
+           */
+          auto: {
+            type: Boolean
           }
         };
       }
@@ -77,18 +89,49 @@ Sends requests to the GW2 API endpoint items
           // console.log("IDs:", this.ids);
 
           // console.log("Generating request about items", this.ids);
-          this.$.itemRequester.generateRequest();
+          if (this.auto === true) {
+            this.$.itemRequester.generateRequest();
+          }
         });
       }
 
+      /**
+       * Generate the params object
+       */
       _generateParams(ids) {
         return this.params = {
           ids: this.ids
         }
       }
 
+      /**
+       * Handle a succesful the response
+       */
       _handleResponse(request) {
-        console.log(request.detail.response);
+        //console.log(request.detail.response);
+        //console.log(request);
+        this.response = request.detail.response;
+      }
+
+      /**
+       * Handle an unsuccessful response
+       */
+      _handleError(request) {
+        console.error(request.detail.error, request);
+      }
+
+      /**
+       * Manually generate the request
+       */
+      generateRequest() {
+        this.$.itemRequester.generateRequest();
+      }
+
+      /** 
+       * Get the latest response
+       */
+      lastResponse() {
+        return this.response;
       }
 
 
