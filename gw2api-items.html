@@ -1,0 +1,38 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<!--
+`gw2api-items`
+Sends requests to the GW2 API endpoint items
+
+@demo demo/index.html
+-->
+
+<dom-module id="gw2api-items">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /** @polymerElement */
+    class Gw2apiItems extends Polymer.Element {
+      static get is() { return 'gw2api-items'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'gw2api-items'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(MyElement.is, MyElement);
+  </script>
+</dom-module>
